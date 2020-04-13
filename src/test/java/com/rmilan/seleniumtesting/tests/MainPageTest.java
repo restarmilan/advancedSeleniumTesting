@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringJUnitConfig(SpringConfig.class)
 class MainPageTest {
 
@@ -15,9 +17,17 @@ class MainPageTest {
 
 
     @Test
-    @DisplayName("Check basic navigation method")
-    void checkWebDriver(){
+    @DisplayName("Check webdriver navigation")
+    void checkNavigationToMainPage(){
         mainPage.navigateTo();
+        assertEquals(mainPage.getPageUrl(),"https://www.seleniumeasy.com/test/");
     }
 
+    @Test
+    @DisplayName("Check example selector on main page")
+    void checkExampleSelector() {
+        mainPage.navigationUsingExampleSelector();
+        assertEquals(mainPage.getPageUrl(),"https://www.seleniumeasy.com/test/basic-first-form-demo.html");
+
+    }
 }
