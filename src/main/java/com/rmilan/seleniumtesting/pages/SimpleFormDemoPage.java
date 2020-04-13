@@ -15,9 +15,9 @@ public class SimpleFormDemoPage extends BasePage {
     @FindBy(xpath = "//span[@id='display']")
     WebElement showUserInput;
     @FindBy(xpath = "//input[@id='sum1']")
-    WebElement value1;
+    WebElement setValue1Field;
     @FindBy(xpath = "//input[@id='sum2']")
-    WebElement value2;
+    WebElement setValue2Field;
     @FindBy(xpath = "//button[text()='Get Total']")
     WebElement getTotalButton;
     @FindBy(xpath = "//span[@id='displayvalue']")
@@ -28,7 +28,7 @@ public class SimpleFormDemoPage extends BasePage {
     }
 
     public void setSingleInputField(String input) {
-        navigateTo(baseUrl+"/basic-first-form-demo.html");
+        navigateTo(baseUrl + "/basic-first-form-demo.html");
         setElementInput(userInput, input);
         clickOnWebElement(showMessageBtn);
     }
@@ -36,4 +36,16 @@ public class SimpleFormDemoPage extends BasePage {
     public String getUserInputFromSingleInputField() {
         return getElementInnerText(showUserInput);
     }
+
+    public void setDoubleInputField (String input1, String input2) {
+        navigateTo(baseUrl + "/basic-first-form-demo.html");
+        setElementInput(setValue1Field, input1);
+        setElementInput(setValue2Field, input2);
+        clickOnWebElement(getTotalButton);
+    }
+
+    public String getAddedValuesFromDoubleInputField() {
+        return getElementInnerText(addedValues);
+    }
+
 }

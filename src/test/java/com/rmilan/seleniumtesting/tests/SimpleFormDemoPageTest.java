@@ -24,5 +24,13 @@ class SimpleFormDemoPageTest {
         assertEquals(expected, simpleFormDemoPage.getUserInputFromSingleInputField());
     }
 
+    @ParameterizedTest
+    @CsvFileSource(resources = "/double_input_field_test_data.csv", numLinesToSkip = 1)
+    @DisplayName("Check double input fields expected added values")
+    void checkAddedUserInputs(String value1, String value2, String expected) {
+        simpleFormDemoPage.setDoubleInputField(value1, value2);
+        assertEquals(expected, simpleFormDemoPage.getAddedValuesFromDoubleInputField());
+    }
+
 
 }
