@@ -18,7 +18,7 @@ class SimpleFormDemoPageTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/simple_input_message.csv", numLinesToSkip = 1)
-    @DisplayName("Check simple input field expected messages")
+    @DisplayName("TC-ST-SFD-01 - Check simple input field expected messages")
     void checkSimpleInputField(String input, String expected) {
         simpleFormDemoPage.setSingleInputField(input);
         assertEquals(expected, simpleFormDemoPage.getUserInputFromSingleInputField());
@@ -26,7 +26,7 @@ class SimpleFormDemoPageTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/double_input_field_test_data.csv", numLinesToSkip = 1)
-    @DisplayName("Check double input fields expected added values")
+    @DisplayName("TC-ST-SFD-02 - Check double input fields expected added values")
     void checkAddedUserInputs(String value1, String value2, String expected) {
         simpleFormDemoPage.setDoubleInputField(value1, value2);
         assertEquals(expected, simpleFormDemoPage.getAddedValuesFromDoubleInputField());

@@ -17,14 +17,14 @@ class MainPageTest {
 
 
     @Test
-    @DisplayName("Check webdriver navigation")
+    @DisplayName("TC-ST-MP-01 - Check webdriver navigation")
     void checkNavigationToMainPage(){
         mainPage.navigateTo();
         assertEquals(mainPage.getPageUrl(),"https://www.seleniumeasy.com/test/");
     }
 
     @Test
-    @DisplayName("Check example selector on main page")
+    @DisplayName("TC-ST-MP-02 - Check example selector on main page")
     void checkExampleSelector() {
         mainPage.navigationUsingExampleSelector();
         assertEquals(mainPage.getPageUrl(),"https://www.seleniumeasy.com/test/basic-first-form-demo.html");
