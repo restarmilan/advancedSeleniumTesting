@@ -1,10 +1,10 @@
-package com.rmilan.seleniumtesting.tests;
+package com.rmilan.seleniumtesting.tests.utils;
 
 import org.junit.jupiter.api.DisplayNameGenerator;
 
 import java.lang.reflect.Method;
 
-public class IndicativeSentences extends DisplayNameGenerator.Standard{
+public class TestNameGenerator extends DisplayNameGenerator.Standard{
 
     @Override
     public String generateDisplayNameForClass(Class<?> testClass) {
