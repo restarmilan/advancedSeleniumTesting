@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @PropertySource("application.properties")
-@ComponentScan(basePackages = "com.rmilan.seleniumtesting.pages")
+@ComponentScan(basePackages = "com.rmilan.seleniumtesting")
 public class SpringConfig {
 
     @Value("${chromeDriverPath}")
