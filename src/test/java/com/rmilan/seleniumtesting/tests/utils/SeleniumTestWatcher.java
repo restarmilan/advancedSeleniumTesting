@@ -1,13 +1,19 @@
 package com.rmilan.seleniumtesting.tests.utils;
 
+import com.rmilan.seleniumtesting.config.SpringConfig;
+import com.rmilan.seleniumtesting.utils.ScreenshotCreator;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Optional;
 
-@Component
+@SpringJUnitConfig(SpringConfig.class)
 public class SeleniumTestWatcher implements TestWatcher {
+
+    @Autowired
+    private ScreenshotCreator sc;
 
     @Override
     public void testAborted(ExtensionContext extensionContext, Throwable throwable) {
@@ -22,7 +28,9 @@ public class SeleniumTestWatcher implements TestWatcher {
     @Override
     public void testFailed(ExtensionContext extensionContext, Throwable throwable) {
         System.out.println("Failed test case");
-        //here comes a method calling for create screen shots from failed test cases
+        System.out.println(sc.toString());
+        sc.createScreenshot();
+        //Displays the message at the failed test case, but throws a NullPointerException. Why??
     }
 
     @Override
