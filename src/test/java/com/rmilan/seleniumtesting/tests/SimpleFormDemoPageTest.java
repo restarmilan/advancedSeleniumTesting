@@ -31,7 +31,7 @@ class SimpleFormDemoPageTest {
     }
 
     @DisplayName("TC-ST-SFD-02 - Check double input fields expected added result")
-    @ParameterizedTest(name = "TC-ST-SFD-02 - Check double input fields expected added result with {0} and {0} values.")
+    @ParameterizedTest(name = "TC-ST-SFD-02 - Check double input fields expected added result with {0} and {1} values.")
     @CsvFileSource(resources = "/double_input_field_test_data.csv", numLinesToSkip = 1)
     void checkAddedUserInputs(String value1, String value2, String expected) {
         simpleFormDemoPage.setDoubleInputField(value1, value2);
