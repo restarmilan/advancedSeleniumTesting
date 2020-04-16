@@ -23,8 +23,10 @@ public class SeleniumTestWatcher implements TestWatcher {
 
     @Override
     public void testFailed(ExtensionContext extensionContext, Throwable throwable) {
-        System.out.println("Failed test case");
-        ScreenshotCreator.createScreenshot();
+        String tcName = extensionContext.getDisplayName();
+        String tcCode=tcName.substring(0, tcName.indexOf(' '));
+        System.out.println("Failed test case: "+tcName);
+        ScreenshotCreator.createScreenshot(tcCode);
     }
 
     @Override
