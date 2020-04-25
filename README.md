@@ -20,3 +20,8 @@ mvn surefire-report:report
 ```
 mvn surefire-report:report -DshowSuccess=false
 ```
+
+Screenshots:
+
+Selenium made screenshots of failed test cases are located in ./target/screenshots folder. Screenshots' file name contains the unique identifier
+of the test case and a simplified timestamp.
