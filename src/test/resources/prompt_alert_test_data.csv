@@ -1,0 +1,10 @@
+input, expected
+ , You have entered ' ' !
+a, You have entered 'a' !
+1, You have entered '1' !
+name, You have entered 'name' !
+nAmE, You have entered 'nAmE' !
+NAME, You have entered 'NAME' !
+n1a2m3e4, You have entered 'n1a2m3e4' !
+n*a!m?e, You have entered 'n*a!m?e' !
+1234, You have entered '1234' !
