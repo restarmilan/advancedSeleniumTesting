@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -43,30 +44,48 @@ public class FileDownloadDemoPageTest {
     @Test
     @DisplayName("TC-ST-FDD-03 - Check remaining character counter in textarea for entering data")
     void countRemainingCharacters() throws IOException {
-        String input = this.textDataProvider();
+        String input = this.fileReader("src/test/resources/textarea_message.txt");
         fileDownloadDemoPage.setInputToTextArea(input);
         //app's data provider textarea has 500 characters capacity
         int remainingCharacters = fileDownloadDemoPage.remainingCharacters(500);
-        assertEquals(remainingCharacters+" characters remaining",
+        assertEquals(remainingCharacters + " characters remaining",
                 fileDownloadDemoPage.getTextareaFeedback());
     }
 
     @Test
     @DisplayName("TC-ST-FDD-04 - Check if file is available for download after entering any data")
     void fileIsAvailableForDownload() throws IOException {
-        String input = this.textDataProvider();
+        String input = this.fileReader("src/test/resources/textarea_message.txt");
         fileDownloadDemoPage.setInputToTextArea(input);
         fileDownloadDemoPage.createFileForDownload();
         assertTrue(fileDownloadDemoPage.isAvailableForDownload());
     }
 
-    String textDataProvider() throws IOException{
-        Path filePath = FileSystems.getDefault().getPath("src/test/resources/textarea_message.txt");
-        String input = new String(Files.readAllBytes(filePath));
-        return input;
+    @Test
+    @DisplayName("TC-ST-FDD-05 - Check downloaded file's existence and content")
+    void checkDownloadedFile() throws IOException{
+        String input = this.fileReader("src/test/resources/textarea_message.txt");
+        String pathName = System.getenv("PATH_NAME");
+        File downloadedFile = new File(pathName);
+        fileDownloadDemoPage.setInputToTextArea(input);
+        fileDownloadDemoPage.createFileForDownload();
+        fileDownloadDemoPage.downloadFile();
+        fileDownloadDemoPage.waitForDownloadFile(downloadedFile);
+
+        boolean fileExists = downloadedFile.exists();
+        assertTrue(fileExists);
+        System.out.println("TC-ST-FDD-05 - Downloaded file exists");
+
+        String downloaded = this.fileReader(pathName);
+        assertEquals(input, downloaded);
+        System.out.println("TC-ST-FDD-05 - Downloaded file equals with provided data");
+
+        downloadedFile.delete();
     }
 
-
-
-
+    String fileReader(String path) throws IOException {
+        Path filePath = FileSystems.getDefault().getPath(path);
+        String fileContent = new String(Files.readAllBytes(filePath));
+        return fileContent;
+    }
 }
