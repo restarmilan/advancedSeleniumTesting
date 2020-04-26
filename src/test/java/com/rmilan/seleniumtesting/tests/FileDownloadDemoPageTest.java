@@ -11,8 +11,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig(SpringConfig.class)
 @DisplayNameGeneration(TestNameGenerator.class)
@@ -34,6 +38,18 @@ public class FileDownloadDemoPageTest {
     void checkIfFileGenerationIsActive() {
         fileDownloadDemoPage.setInputToTextArea("a");
         assertTrue(fileDownloadDemoPage.isFileGeneratingButtonEnableToUse());
+    }
+
+    @Test
+    @DisplayName("TC-ST-FDD-03 - Check remaining character counter in textarea for entering data")
+    void countRemainingCharacters() throws IOException {
+        Path filePath = FileSystems.getDefault().getPath("src/test/resources/textarea_message.txt");
+        String input = new String(Files.readAllBytes(filePath));
+        fileDownloadDemoPage.setInputToTextArea(input);
+        //app's data provider textarea has 500 characters capacity
+        int remainingCharacters = fileDownloadDemoPage.remainingCharacters(500);
+        assertEquals(remainingCharacters+" characters remaining",
+                fileDownloadDemoPage.getTextareaFeedback());
     }
 
 

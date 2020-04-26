@@ -14,12 +14,15 @@ public class FileDownloadDemoPage extends BasePage {
     @FindBy(xpath = "//textarea[@id='textbox']")
     WebElement dataTextArea;
 
+    @FindBy(xpath = "//div[@id='textarea_feedback']")
+    WebElement textAreaRemainingCharacters;
+
     public FileDownloadDemoPage(WebDriver driver) {
         super(driver);
     }
 
     public void setInputToTextArea(String input) {
-        navigateTo(baseUrl+"/generate-file-to-download-demo.html");
+        navigateTo(baseUrl + "/generate-file-to-download-demo.html");
         setElementInput(dataTextArea, input);
     }
 
@@ -27,5 +30,14 @@ public class FileDownloadDemoPage extends BasePage {
         return createFileBtn.isEnabled();
     }
 
+    public int remainingCharacters(int limit) {
+        return limit - dataTextArea.getAttribute("value").length();
+    }
 
+    public String getTextareaFeedback() {
+        return textAreaRemainingCharacters.getText();
+    }
 }
+
+
+
