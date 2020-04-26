@@ -3,7 +3,11 @@ package com.rmilan.seleniumtesting.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
 
 @Component
 public class FileDownloadDemoPage extends BasePage {
@@ -40,6 +44,14 @@ public class FileDownloadDemoPage extends BasePage {
     public boolean isAvailableForDownload() {
         return downloadLink.isDisplayed();
 
+    }
+
+    public void downloadFile() {
+        clickOnWebElement(downloadLink);
+    }
+
+    public void waitForDownloadFile(File file) {
+        new WebDriverWait(this.driver, 15).until((ExpectedCondition<Boolean>) driver -> file.exists());
     }
 
     public int remainingCharacters(int limit) {
