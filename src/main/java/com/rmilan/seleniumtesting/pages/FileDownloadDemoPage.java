@@ -17,6 +17,9 @@ public class FileDownloadDemoPage extends BasePage {
     @FindBy(xpath = "//div[@id='textarea_feedback']")
     WebElement textAreaRemainingCharacters;
 
+    @FindBy(xpath = "//a[@id='link-to-download']")
+    WebElement downloadLink;
+
     public FileDownloadDemoPage(WebDriver driver) {
         super(driver);
     }
@@ -28,6 +31,15 @@ public class FileDownloadDemoPage extends BasePage {
 
     public boolean isFileGeneratingButtonEnableToUse() {
         return createFileBtn.isEnabled();
+    }
+
+    public void createFileForDownload() {
+        clickOnWebElement(createFileBtn);
+    }
+
+    public boolean isAvailableForDownload() {
+        return downloadLink.isDisplayed();
+
     }
 
     public int remainingCharacters(int limit) {

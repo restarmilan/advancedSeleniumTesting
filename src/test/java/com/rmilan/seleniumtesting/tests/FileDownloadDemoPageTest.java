@@ -43,13 +43,27 @@ public class FileDownloadDemoPageTest {
     @Test
     @DisplayName("TC-ST-FDD-03 - Check remaining character counter in textarea for entering data")
     void countRemainingCharacters() throws IOException {
-        Path filePath = FileSystems.getDefault().getPath("src/test/resources/textarea_message.txt");
-        String input = new String(Files.readAllBytes(filePath));
+        String input = this.textDataProvider();
         fileDownloadDemoPage.setInputToTextArea(input);
         //app's data provider textarea has 500 characters capacity
         int remainingCharacters = fileDownloadDemoPage.remainingCharacters(500);
         assertEquals(remainingCharacters+" characters remaining",
                 fileDownloadDemoPage.getTextareaFeedback());
+    }
+
+    @Test
+    @DisplayName("TC-ST-FDD-04 - Check if file is available for download after entering any data")
+    void fileIsAvailableForDownload() throws IOException {
+        String input = this.textDataProvider();
+        fileDownloadDemoPage.setInputToTextArea(input);
+        fileDownloadDemoPage.createFileForDownload();
+        assertTrue(fileDownloadDemoPage.isAvailableForDownload());
+    }
+
+    String textDataProvider() throws IOException{
+        Path filePath = FileSystems.getDefault().getPath("src/test/resources/textarea_message.txt");
+        String input = new String(Files.readAllBytes(filePath));
+        return input;
     }
 
 
