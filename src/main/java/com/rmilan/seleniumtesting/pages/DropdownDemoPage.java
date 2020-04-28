@@ -1,7 +1,7 @@
 package com.rmilan.seleniumtesting.pages;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.stereotype.Component;
@@ -37,17 +37,7 @@ public class DropdownDemoPage extends BasePage {
 
     public void selectMultipleItems(List<String> options) {
         navigateTo(baseUrl + "/basic-select-dropdown-demo.html");
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", multiSelector);
-        Actions action = new Actions(driver);
-        for (String option : options) {
-            try {
-                WebElement select = driver.findElement(By.xpath("//option[@value='" + option + "']"));
-                action.keyDown(Keys.CONTROL).click(select).build().perform();
-            } catch (NoSuchElementException e) {
-                System.out.println("There is no such option is the dropdown: " + option);
-                e.printStackTrace();
-            }
-        }
+        selectMultipleItemsFromList(options, multiSelector);
     }
 
     public String getSelectedDay() {

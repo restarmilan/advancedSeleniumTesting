@@ -1,10 +1,12 @@
 package com.rmilan.seleniumtesting.pages;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.List;
 
 public abstract class BasePage {
 
@@ -46,6 +48,21 @@ public abstract class BasePage {
 
     public String getElementInnerText(WebElement element) {
         return element.getText();
+    }
+
+    public void selectMultipleItemsFromList(List<String> options, WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        Actions action = new Actions(driver);
+        for (String option : options) {
+            try {
+                WebElement select = driver.findElement(By.xpath("//option[text()='" + option + "']"));
+                action.keyDown(Keys.CONTROL).click(select).build().perform();
+            } catch (NoSuchElementException e) {
+                System.out.println("There is no such option is the dropdown: " + option);
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public String getElementAttribute(WebElement element, String attribute) {
