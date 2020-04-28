@@ -63,4 +63,13 @@ class TableSortAndSearchDemoPageTest {
                 "Showing 21 to 30 of 32 entries", "Showing 31 to 32 of 32 entries", "Showing 21 to 30 of 32 entries",
                 "Showing 11 to 20 of 32 entries", "Showing 1 to 10 of 32 entries"));
     }
+
+    @DisplayName("TC-ST-TSS-05 - Check table sort")
+    @ParameterizedTest(name = "TC-ST-TSS-05 - Check table sort by {1} in {0} order")
+    @CsvFileSource(resources = "/table_sort_data.csv", numLinesToSkip = 1, delimiter = ':')
+    void tableRows(String order, String sortKey, String expected) {
+        tableSortAndSearchDemoPage.tableSort(order, sortKey);
+        String firstItem = tableSortAndSearchDemoPage.getFirstTableRowData();
+        assertEquals(firstItem, expected);
+    }
 }
