@@ -1,5 +1,6 @@
 package com.rmilan.seleniumtesting.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -20,6 +22,12 @@ public class TableSortAndSearchDemoPage extends BasePage {
     List<WebElement> tableRows;
     @FindBy(xpath = "//input[@type='search']")
     WebElement tableSearchBar;
+    @FindBy(xpath = "//a[@id='example_next']")
+    WebElement paginationButtonNext;
+    @FindBy(xpath = "//a[@id='example_previous']")
+    WebElement paginationButtonPrev;
+
+    private List<String> paginationInfos = new ArrayList<>();
 
     public TableSortAndSearchDemoPage(WebDriver driver) {
         super(driver);
@@ -36,6 +44,24 @@ public class TableSortAndSearchDemoPage extends BasePage {
         }
     }
 
+    public void tablePaginationUsingPageIndex(String pageNumber) {
+        navigateTo(baseUrl + "/table-sort-search-demo.html");
+        WebElement page = driver.findElement(By.xpath("//a[@data-dt-idx='" + pageNumber + "']"));
+        clickOnWebElement(page);
+    }
+
+    public void tablePaginationUsingDirectionButtons() {
+        navigateTo(baseUrl + "/table-sort-search-demo.html");
+        while (!paginationButtonNext.getAttribute("class").equals("paginate_button next disabled")) {
+            clickOnWebElement(paginationButtonNext);
+            paginationInfos.add(gettableEntriesInfo());
+        }
+        while (!paginationButtonPrev.getAttribute("class").equals("paginate_button previous disabled")) {
+            clickOnWebElement(paginationButtonPrev);
+            paginationInfos.add(gettableEntriesInfo());
+        }
+    }
+
     public void tableSearch(String searchKey) {
         navigateTo(baseUrl + "/table-sort-search-demo.html");
         setElementInput(tableSearchBar, searchKey);
@@ -47,5 +73,9 @@ public class TableSortAndSearchDemoPage extends BasePage {
 
     public String gettableEntriesInfo() {
         return tableEntryInfo.getText();
+    }
+
+    public List<String> getPaginationInfos() {
+        return paginationInfos;
     }
 }
