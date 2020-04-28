@@ -67,6 +67,21 @@ public class TableSortAndSearchDemoPage extends BasePage {
         setElementInput(tableSearchBar, searchKey);
     }
 
+    public void tableSort(String order, String header) {
+        navigateTo(baseUrl + "/table-sort-search-demo.html");
+        String th = header.substring(0, 1).toUpperCase() + header.substring(1);
+        try {
+            WebElement tableHeader = driver.findElement(By.xpath("//th[contains(text(),'" + th + "')]"));
+            clickOnWebElement(tableHeader);
+            while (!tableHeader.getAttribute("aria-sort").equals(order)) {
+                clickOnWebElement(tableHeader);
+            }
+        } catch (NoSuchElementException e) {
+            System.out.println("There is no such column to sort in the table");
+            e.printStackTrace();
+        }
+    }
+
     public int getNumberOfTableRows() {
         return tableRows.size();
     }
@@ -77,5 +92,9 @@ public class TableSortAndSearchDemoPage extends BasePage {
 
     public List<String> getPaginationInfos() {
         return paginationInfos;
+    }
+
+    public String getFirstTableRowData() {
+        return tableRows.get(0).getText();
     }
 }
