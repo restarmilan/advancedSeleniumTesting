@@ -36,6 +36,11 @@ public class TableSortAndSearchDemoPage extends BasePage {
         }
     }
 
+    public void tableSearch(String searchKey) {
+        navigateTo(baseUrl + "/table-sort-search-demo.html");
+        setElementInput(tableSearchBar, searchKey);
+    }
+
     public int getNumberOfTableRows() {
         return tableRows.size();
     }

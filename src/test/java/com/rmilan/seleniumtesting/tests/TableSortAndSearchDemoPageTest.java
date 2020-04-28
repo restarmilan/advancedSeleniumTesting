@@ -32,4 +32,15 @@ class TableSortAndSearchDemoPageTest {
         assertEquals(expected, tableSortAndSearchDemoPage.gettableEntriesInfo());
         System.out.println(String.format("TC-ST-TSS-01 - Table entry info validated with %s value", option));
     }
+
+    @DisplayName("TC-ST-TSS-02 - Check case-insensitive table search feature")
+    @ParameterizedTest(name = "TC-ST-TSS-02 - Check case-insensitive table search feature with {0} value")
+    @CsvFileSource(resources = "/table_search.csv", numLinesToSkip = 1)
+    void checkTableSearch(String searchKey, String result, String expectedInfo) {
+        tableSortAndSearchDemoPage.tableSearch(searchKey);
+        assertEquals(Integer.parseInt(result), tableSortAndSearchDemoPage.getNumberOfTableRows());
+        System.out.println(String.format("TC-ST-TSS-02 - Number of results validated with %s value", searchKey));
+        assertEquals(expectedInfo, tableSortAndSearchDemoPage.gettableEntriesInfo());
+        System.out.println(String.format("TC-ST-TSS-02 - Number of results table info validated with %s value", searchKey));
+    }
 }
