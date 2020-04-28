@@ -6,11 +6,14 @@ import com.rmilan.seleniumtesting.tests.utils.SeleniumTestWatcher;
 import com.rmilan.seleniumtesting.tests.utils.TestNameGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -42,5 +45,22 @@ class TableSortAndSearchDemoPageTest {
         System.out.println(String.format("TC-ST-TSS-02 - Number of results validated with %s value", searchKey));
         assertEquals(expectedInfo, tableSortAndSearchDemoPage.gettableEntriesInfo());
         System.out.println(String.format("TC-ST-TSS-02 - Number of results table info validated with %s value", searchKey));
+    }
+
+    @DisplayName("TC-ST-TSS-03 - Check table pagination using page indexes")
+    @ParameterizedTest(name = "TC-ST-TSS-03 - Check table pagination using page index {0}")
+    @CsvFileSource(resources = "/table_pagination_indexes.csv", numLinesToSkip = 1)
+    void checkTablePaginationUsingIndexes(String pageNumber, String expectedInfo) {
+        tableSortAndSearchDemoPage.tablePaginationUsingPageIndex(pageNumber);
+        assertEquals(expectedInfo, tableSortAndSearchDemoPage.gettableEntriesInfo());
+    }
+
+    @DisplayName("TC-ST-TSS-04 - Check table pagination using direction buttons")
+    @Test
+    void checkTablePaginationUsingDirectionButtons() {
+        tableSortAndSearchDemoPage.tablePaginationUsingDirectionButtons();
+        assertEquals(tableSortAndSearchDemoPage.getPaginationInfos(), Arrays.asList("Showing 11 to 20 of 32 entries",
+                "Showing 21 to 30 of 32 entries", "Showing 31 to 32 of 32 entries", "Showing 21 to 30 of 32 entries",
+                "Showing 11 to 20 of 32 entries", "Showing 1 to 10 of 32 entries"));
     }
 }
