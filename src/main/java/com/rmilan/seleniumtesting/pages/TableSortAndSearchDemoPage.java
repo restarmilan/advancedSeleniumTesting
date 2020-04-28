@@ -18,18 +18,20 @@ public class TableSortAndSearchDemoPage extends BasePage {
     WebElement tableEntryInfo;
     @FindBy(xpath = "//table[@id='example']/tbody/tr")
     List<WebElement> tableRows;
+    @FindBy(xpath = "//input[@type='search']")
+    WebElement tableSearchBar;
 
     public TableSortAndSearchDemoPage(WebDriver driver) {
         super(driver);
     }
 
     public void selectNumberOfTableEntries(String option) {
-        navigateTo(baseUrl+"/table-sort-search-demo.html");
+        navigateTo(baseUrl + "/table-sort-search-demo.html");
         Select entriesSelect = new Select(tableEntrySelector);
         try {
             entriesSelect.selectByValue(option);
         } catch (NoSuchElementException e) {
-            System.out.println("There is no such option in the dropdown: " + option);
+            System.out.println("There is no such option in the table entry selector: " + option);
             e.printStackTrace();
         }
     }
