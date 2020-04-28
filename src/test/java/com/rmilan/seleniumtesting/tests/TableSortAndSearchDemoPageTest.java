@@ -67,7 +67,7 @@ class TableSortAndSearchDemoPageTest {
     @DisplayName("TC-ST-TSS-05 - Check table sort")
     @ParameterizedTest(name = "TC-ST-TSS-05 - Check table sort by {1} in {0} order")
     @CsvFileSource(resources = "/table_sort_data.csv", numLinesToSkip = 1, delimiter = ':')
-    void tableRows(String order, String sortKey, String expected) {
+    void checkTableSortInAnyOrder(String order, String sortKey, String expected) {
         tableSortAndSearchDemoPage.tableSort(order, sortKey);
         String firstItem = tableSortAndSearchDemoPage.getFirstTableRowData();
         assertEquals(firstItem, expected);
