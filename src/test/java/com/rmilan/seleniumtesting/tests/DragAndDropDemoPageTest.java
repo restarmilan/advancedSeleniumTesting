@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringJUnitConfig(SpringConfig.class)
 @DisplayNameGeneration(TestNameGenerator.class)
@@ -21,8 +20,6 @@ class DragAndDropDemoPageTest {
 
     @Autowired
     DragAndDropDemoPage dragAndDropDemoPage;
-
-
 
     @Test
     @DisplayName("TC-ST-DAD-01 - Check initial number of draggable items")
@@ -39,17 +36,14 @@ class DragAndDropDemoPageTest {
     }
 
     @Test
-    void checkDroppingPlaceVisibility() {
-        dragAndDropDemoPage.navigateToDragAndDropPage();
-        assertTrue(dragAndDropDemoPage.isDroppingPlaceVisible());
-    }
-
-    @Test
-    void dragAnItem() {
+    @DisplayName("TC-ST-DAD-03 - Check drag and drop function")
+    void dragAndDropAllItems() {
         dragAndDropDemoPage.navigateToDragAndDropPage();
         dragAndDropDemoPage.dragAndDrop();
         assertEquals(0, dragAndDropDemoPage.getDraggableItems());
+        System.out.println("TC-ST-DAD-03 - All items has dragged");
         assertEquals(4, dragAndDropDemoPage.getDroppedItems());
+        System.out.println("TC-ST-DAD-03 - All items has dropped");
     }
 
     //TODO: make this test case pass, find a proper drag&drop selenium solution which works with chromedriver
