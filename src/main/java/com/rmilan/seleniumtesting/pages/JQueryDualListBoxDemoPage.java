@@ -15,10 +15,18 @@ public class JQueryDualListBoxDemoPage extends BasePage {
     private final int ALL_PICKS = 15;
     @FindBy(xpath = "//select[@class='form-control pickListSelect pickData']")
     WebElement pickList;
+    @FindBy(xpath = "//select[@class='form-control pickListSelect pickListResult']")
+    WebElement pickResultList;
     @FindBy(xpath = "//select[@class='form-control pickListSelect pickListResult']/child::option")
     List<WebElement> selectedPicks;
     @FindBy(xpath = "//button[text()='Add']")
     WebElement addSelectedPicksButton;
+    @FindBy(xpath = "//button[text()='Add All']")
+    WebElement addAllPicksButton;
+    @FindBy(xpath = "//button[text()='Remove']")
+    WebElement removePicksFromPickResultListButton;
+    @FindBy(xpath = "//button[text()='Remove All']")
+    WebElement removeAllPicksFromPickResultListButton;
 
     public JQueryDualListBoxDemoPage(WebDriver driver) {
         super(driver);
@@ -33,13 +41,23 @@ public class JQueryDualListBoxDemoPage extends BasePage {
         clickOnWebElement(addSelectedPicksButton);
     }
 
+    public void addAllPicksToPickResultList() {
+        navigateTo(baseUrl + "/jquery-dual-list-box-demo.html");
+        clickOnWebElement(addAllPicksButton);
+    }
+
+    public void removeAllPicksFromPickResultList() {
+        clickOnWebElement(removeAllPicksFromPickResultListButton);
+    }
+
     public int getNumberOfSelectablePickOptions() {
         Select selectablePicks = new Select(pickList);
         return selectablePicks.getOptions().size();
     }
 
-    public int getNumberOfPickResultListOptions() {
-        return selectedPicks.size();
+    public int getNumberOfPicksInPickResultList() {
+        Select resultList = new Select(pickResultList);
+        return resultList.getOptions().size();
     }
 
     public List<String> getPickResultListOptions() {
