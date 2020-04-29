@@ -6,6 +6,7 @@ import com.rmilan.seleniumtesting.tests.utils.SeleniumTestWatcher;
 import com.rmilan.seleniumtesting.tests.utils.TestNameGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -41,7 +42,7 @@ class JQueryDualListBoxDemoPageTest {
     void checkPickResultListAfterAddition(List<String> options) {
         jQueryDualListBoxDemoPage.selectMultipleItems(options);
         jQueryDualListBoxDemoPage.addSelectedItemsToResultList();
-        int noOfAddedPicks = jQueryDualListBoxDemoPage.getNumberOfPickResultListOptions();
+        int noOfAddedPicks = jQueryDualListBoxDemoPage.getNumberOfPicksInPickResultList();
         List<String> addedPicks = jQueryDualListBoxDemoPage.getPickResultListOptions();
         assertEquals(options.size(), noOfAddedPicks);
         System.out.println(String.format("TC-ST-JDLB-01 - Number of added picks validated using %s values", options));
@@ -57,5 +58,37 @@ class JQueryDualListBoxDemoPageTest {
         jQueryDualListBoxDemoPage.addSelectedItemsToResultList();
         int remainingPicks = jQueryDualListBoxDemoPage.getAllPicksBeforeSelectAny() - options.size();
         assertEquals(remainingPicks, jQueryDualListBoxDemoPage.getNumberOfSelectablePickOptions());
+    }
+
+    @DisplayName("TC-ST-JDLB-03 - Check number of picks in pick result list after added all picks")
+    @Test
+    void checkAddAllPicksToPickResultList() {
+        jQueryDualListBoxDemoPage.addAllPicksToPickResultList();
+        assertEquals(jQueryDualListBoxDemoPage.getNumberOfPicksInPickResultList(),
+                jQueryDualListBoxDemoPage.getAllPicksBeforeSelectAny());
+    }
+
+    @DisplayName("TC-ST-JDLB-04 - Check the number of picks in original pick list after all picks added to pick result list")
+    @Test
+    void checkOriginalPickListAfterAllPicksAdd() {
+        jQueryDualListBoxDemoPage.addAllPicksToPickResultList();
+        assertEquals(0, jQueryDualListBoxDemoPage.getNumberOfSelectablePickOptions());
+    }
+
+    @DisplayName("TC-ST-JDLB-05 - Check the number of picks in pick result list after all picks removed")
+    @Test
+    void checkResultPickListAfterAllPicksRemoved() {
+        jQueryDualListBoxDemoPage.addAllPicksToPickResultList();
+        jQueryDualListBoxDemoPage.removeAllPicksFromPickResultList();
+        assertEquals(0, jQueryDualListBoxDemoPage.getNumberOfPicksInPickResultList());
+    }
+
+    @DisplayName("TC-ST-JDLB-06 - Check the number of picks in original pick list after all picks removed from pick result list")
+    @Test
+    void checkOriginalPickListAfterAllPicksRemovedFromPickResultList() {
+        jQueryDualListBoxDemoPage.addAllPicksToPickResultList();
+        jQueryDualListBoxDemoPage.removeAllPicksFromPickResultList();
+        assertEquals(jQueryDualListBoxDemoPage.getAllPicksBeforeSelectAny(),
+                jQueryDualListBoxDemoPage.getNumberOfSelectablePickOptions());
     }
 }
