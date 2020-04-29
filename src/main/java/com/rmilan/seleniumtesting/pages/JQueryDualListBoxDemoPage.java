@@ -32,9 +32,13 @@ public class JQueryDualListBoxDemoPage extends BasePage {
         super(driver);
     }
 
-    public void selectMultipleItems(List<String> options) {
+    public void selectMultipleItemsFromPickList(List<String> options) {
         navigateTo(baseUrl + "/jquery-dual-list-box-demo.html");
         selectMultipleItemsFromList(options, pickList);
+    }
+
+    public void selectMultipleItemsFromPickResultList(List<String> options) {
+        selectMultipleItemsFromList(options, pickResultList);
     }
 
     public void addSelectedItemsToResultList() {
@@ -44,6 +48,10 @@ public class JQueryDualListBoxDemoPage extends BasePage {
     public void addAllPicksToPickResultList() {
         navigateTo(baseUrl + "/jquery-dual-list-box-demo.html");
         clickOnWebElement(addAllPicksButton);
+    }
+
+    public void removeSelectedPicksFromPickResultList() {
+        clickOnWebElement(removePicksFromPickResultListButton);
     }
 
     public void removeAllPicksFromPickResultList() {
