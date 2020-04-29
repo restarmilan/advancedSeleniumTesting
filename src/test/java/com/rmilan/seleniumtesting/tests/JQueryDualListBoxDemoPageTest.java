@@ -36,11 +36,22 @@ class JQueryDualListBoxDemoPageTest {
         );
     }
 
+    static Stream<Arguments> provideTestDataForSelectMultiplePicksFromPickResultList() {
+        return Stream.of(
+                Arguments.of(Arrays.asList("Isis", "Alice", "Manuela", "Valentina", "Helena"),
+                        Arrays.asList("Isis", "Manuela", "Helena"),
+                        Arrays.asList("Alice", "Valentina")),
+                Arguments.of(Arrays.asList("Isis", "Sophia", "Alice", "Isabella", "Manuela", "Laura", "Luiza"),
+                        Arrays.asList("Isis", "Sophia", "Alice", "Isabella"),
+                        Arrays.asList("Manuela", "Laura", "Luiza"))
+        );
+    }
+
     @DisplayName("TC-ST-JDLB-01 - Check pick result list after multiple picks added")
     @ParameterizedTest(name = "TC-ST-JDLB-01 - Check pick result list after {0} picks added")
     @MethodSource("provideTestDataForSelectMultiplePicks")
     void checkPickResultListAfterAddition(List<String> options) {
-        jQueryDualListBoxDemoPage.selectMultipleItems(options);
+        jQueryDualListBoxDemoPage.selectMultipleItemsFromPickList(options);
         jQueryDualListBoxDemoPage.addSelectedItemsToResultList();
         int noOfAddedPicks = jQueryDualListBoxDemoPage.getNumberOfPicksInPickResultList();
         List<String> addedPicks = jQueryDualListBoxDemoPage.getPickResultListOptions();
@@ -54,7 +65,7 @@ class JQueryDualListBoxDemoPageTest {
     @ParameterizedTest(name = "TC-ST-JDLB-02 - Check original pick list after {0} picks added to pick result list")
     @MethodSource("provideTestDataForSelectMultiplePicks")
     void checkOriginalPickListAfterAddition(List<String> options) {
-        jQueryDualListBoxDemoPage.selectMultipleItems(options);
+        jQueryDualListBoxDemoPage.selectMultipleItemsFromPickList(options);
         jQueryDualListBoxDemoPage.addSelectedItemsToResultList();
         int remainingPicks = jQueryDualListBoxDemoPage.getAllPicksBeforeSelectAny() - options.size();
         assertEquals(remainingPicks, jQueryDualListBoxDemoPage.getNumberOfSelectablePickOptions());
@@ -90,5 +101,31 @@ class JQueryDualListBoxDemoPageTest {
         jQueryDualListBoxDemoPage.removeAllPicksFromPickResultList();
         assertEquals(jQueryDualListBoxDemoPage.getAllPicksBeforeSelectAny(),
                 jQueryDualListBoxDemoPage.getNumberOfSelectablePickOptions());
+    }
+
+    @DisplayName("TC-ST-JDLB-07 - Check pick result list after remove some of the selected added items")
+    @ParameterizedTest(name = "TC-ST-JDLB-07 - Check pick result list after remove {1} of {0} added items")
+    @MethodSource("provideTestDataForSelectMultiplePicksFromPickResultList")
+    void checkPickResultListAfterRemoveSelectedPicks(List<String> options, List<String> removablePicks, List<String> remainingPicks) {
+        jQueryDualListBoxDemoPage.selectMultipleItemsFromPickList(options);
+        jQueryDualListBoxDemoPage.addSelectedItemsToResultList();
+        jQueryDualListBoxDemoPage.selectMultipleItemsFromPickResultList(removablePicks);
+        jQueryDualListBoxDemoPage.removeSelectedPicksFromPickResultList();
+        assertEquals(remainingPicks.size(), jQueryDualListBoxDemoPage.getNumberOfPicksInPickResultList());
+        System.out.println("TC-ST-JDLB-07 - Number of remaining items in pick result list passed");
+        assertEquals(remainingPicks, jQueryDualListBoxDemoPage.getPickResultListOptions());
+        System.out.println(String.format("TC-ST-JDLB-07 - %s remaining picks passed", remainingPicks));
+    }
+
+    @DisplayName("TC-ST-JDLB-08 - Check original pick list after remove some of the selected added items to pick result list")
+    @ParameterizedTest(name = "TC-ST-JDLB-08 - Check original pick result list after remove {1} items from {0} added items to pick result list")
+    @MethodSource("provideTestDataForSelectMultiplePicksFromPickResultList")
+    void checkPickListAfterRemoveSelectedPicksFromPickResultList(List<String> options, List<String> removablePicks, List<String> remainingPicks) {
+        jQueryDualListBoxDemoPage.selectMultipleItemsFromPickList(options);
+        jQueryDualListBoxDemoPage.addSelectedItemsToResultList();
+        jQueryDualListBoxDemoPage.selectMultipleItemsFromPickResultList(removablePicks);
+        jQueryDualListBoxDemoPage.removeSelectedPicksFromPickResultList();
+        int picksInPickList = jQueryDualListBoxDemoPage.getAllPicksBeforeSelectAny() - remainingPicks.size();
+        assertEquals(picksInPickList, jQueryDualListBoxDemoPage.getNumberOfSelectablePickOptions());
     }
 }
