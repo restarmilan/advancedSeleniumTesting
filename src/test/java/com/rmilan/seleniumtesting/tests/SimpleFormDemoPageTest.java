@@ -4,6 +4,7 @@ import com.rmilan.seleniumtesting.config.SpringConfig;
 import com.rmilan.seleniumtesting.pages.SimpleFormDemoPage;
 import com.rmilan.seleniumtesting.tests.utils.SeleniumTestWatcher;
 import com.rmilan.seleniumtesting.tests.utils.TestNameGenerator;
+import io.github.artsok.ParameterizedRepeatedIfExceptionsTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +24,9 @@ class SimpleFormDemoPageTest {
     private SimpleFormDemoPage simpleFormDemoPage;
 
     @DisplayName("TC-ST-SFD-01 - Check simple input field expected messages")
-    @ParameterizedTest(name="TC-ST-SFD-01 - Check simple input field expected messages with {0} value.")
+    @ParameterizedRepeatedIfExceptionsTest(name = "TC-ST-SFD-01 - Check simple input field expected messages with {0} value.",
+            repeatedName = " (Repeat {currentRepetition} of {totalRepetitions})",
+            repeats = 3, minSuccess = 2)
     @CsvFileSource(resources = "/simple_input_message.csv", numLinesToSkip = 1)
     void checkSimpleInputField(String input, String expected) {
         simpleFormDemoPage.setSingleInputField(input);

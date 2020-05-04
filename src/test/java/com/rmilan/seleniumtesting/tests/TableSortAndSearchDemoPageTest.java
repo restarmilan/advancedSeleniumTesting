@@ -4,6 +4,7 @@ import com.rmilan.seleniumtesting.config.SpringConfig;
 import com.rmilan.seleniumtesting.pages.TableSortAndSearchDemoPage;
 import com.rmilan.seleniumtesting.tests.utils.SeleniumTestWatcher;
 import com.rmilan.seleniumtesting.tests.utils.TestNameGenerator;
+import io.github.artsok.ParameterizedRepeatedIfExceptionsTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,9 @@ class TableSortAndSearchDemoPageTest {
     }
 
     @DisplayName("TC-ST-TSS-02 - Check case-insensitive table search feature")
-    @ParameterizedTest(name = "TC-ST-TSS-02 - Check case-insensitive table search feature with {0} value")
+    @ParameterizedRepeatedIfExceptionsTest(name = "TC-ST-TSS-02 - Check case-insensitive table search feature with {0} value",
+            repeatedName = " (Repeat {currentRepetition} of {totalRepetitions})",
+            repeats = 3, minSuccess = 2)
     @CsvFileSource(resources = "/table_search.csv", numLinesToSkip = 1)
     void checkTableSearch(String searchKey, String result, String expectedInfo) {
         tableSortAndSearchDemoPage.tableSearch(searchKey);
