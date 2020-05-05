@@ -8,6 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -26,6 +28,8 @@ public class FileDownloadDemoPageTest {
 
     @Autowired
     FileDownloadDemoPage fileDownloadDemoPage;
+
+    private final static Logger logger = LoggerFactory.getLogger(FileDownloadDemoPageTest.class);
 
     @Test
     @DisplayName("TC-ST-FDD-01 - Check if file generation feature is inactive without any entered data")
@@ -74,11 +78,11 @@ public class FileDownloadDemoPageTest {
 
         boolean fileExists = downloadedFile.exists();
         assertTrue(fileExists);
-        System.out.println("TC-ST-FDD-05 - Downloaded file exists");
+        logger.info("{} : TC-ST-FDD-05 - Downloaded file exists", this.getClass());
 
         String downloaded = this.fileReader(pathName);
         assertEquals(input, downloaded);
-        System.out.println("TC-ST-FDD-05 - Downloaded file equals with provided data");
+        logger.info("{} : TC-ST-FDD-05 - Downloaded file equals with provided data", this.getClass());
 
         downloadedFile.delete();
     }

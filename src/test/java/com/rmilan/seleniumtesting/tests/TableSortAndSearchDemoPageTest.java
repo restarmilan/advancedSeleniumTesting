@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -26,15 +28,17 @@ class TableSortAndSearchDemoPageTest {
     @Autowired
     TableSortAndSearchDemoPage tableSortAndSearchDemoPage;
 
+    private final static Logger logger = LoggerFactory.getLogger(TableSortAndSearchDemoPage.class);
+
     @DisplayName("TC-ST-TSS-01 - Check table selected number of showing entries")
     @ParameterizedTest(name = "TC-ST-TSS-01 - Check table selected number of showing entries with {0} value.")
     @CsvFileSource(resources = "/table_entries.csv", numLinesToSkip = 1)
     void checkSelectedTableEntries(String option, String tableRows, String expected) {
         tableSortAndSearchDemoPage.selectNumberOfTableEntries(option);
         assertEquals(Integer.parseInt(tableRows), tableSortAndSearchDemoPage.getNumberOfTableRows());
-        System.out.println(String.format("TC-ST-TSS-01 - Number of rows validated with %s value", option));
+        logger.info("{} : TC-ST-TSS-01 - Number of rows validated with {} value", this.getClass(), option);
         assertEquals(expected, tableSortAndSearchDemoPage.gettableEntriesInfo());
-        System.out.println(String.format("TC-ST-TSS-01 - Table entry info validated with %s value", option));
+        logger.info("{} : TC-ST-TSS-01 - Table entry info validated with {} value", this.getClass(), option);
     }
 
     @DisplayName("TC-ST-TSS-02 - Check case-insensitive table search feature")
@@ -45,9 +49,9 @@ class TableSortAndSearchDemoPageTest {
     void checkTableSearch(String searchKey, String result, String expectedInfo) {
         tableSortAndSearchDemoPage.tableSearch(searchKey);
         assertEquals(Integer.parseInt(result), tableSortAndSearchDemoPage.getNumberOfTableRows());
-        System.out.println(String.format("TC-ST-TSS-02 - Number of results validated with %s value", searchKey));
+        logger.info("{} : TC-ST-TSS-02 - Number of results validated with {} value", this.getClass(), searchKey);
         assertEquals(expectedInfo, tableSortAndSearchDemoPage.gettableEntriesInfo());
-        System.out.println(String.format("TC-ST-TSS-02 - Number of results table info validated with %s value", searchKey));
+        logger.info("{} : TC-ST-TSS-02 - Number of results table info validated with {} value", this.getClass(), searchKey);
     }
 
     @DisplayName("TC-ST-TSS-03 - Check table pagination using page indexes")

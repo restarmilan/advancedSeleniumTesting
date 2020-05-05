@@ -12,6 +12,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -28,6 +30,8 @@ public class DropdownDemoPageTest {
 
     @Autowired
     private DropdownDemoPage dropdownDemoPage;
+
+    private final static Logger logger = LoggerFactory.getLogger(DropdownDemoPageTest.class);
 
     static Stream<Arguments> provideTestDataForMultiSelectorListAllSelectedValue() {
         return Stream.of(
@@ -85,8 +89,8 @@ public class DropdownDemoPageTest {
         List<String> options = Arrays.asList("California", "Newyrk", "Texas");
         dropdownDemoPage.selectMultipleItems(options);
         assertEquals(dropdownDemoPage.getFirstSelectedOption(), "First selected option is : California");
-        System.out.println("Test first selected item passed");
+        logger.info("{} : TC-ST-DD-04 - First selected item passed with partially wrong input", this.getClass());
         assertEquals(dropdownDemoPage.getAllSelected(), "Options selected are : California,Texas");
-        System.out.println("Test all selected items passed");
+        logger.info("{} : TC-ST-DD-04 - All selectable items passed with partially wrong input", this.getClass());
     }
 }

@@ -11,6 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -27,6 +29,8 @@ class JQueryDualListBoxDemoPageTest {
 
     @Autowired
     JQueryDualListBoxDemoPage jQueryDualListBoxDemoPage;
+
+    private final static Logger logger = LoggerFactory.getLogger(JQueryDualListBoxDemoPageTest.class);
 
     static Stream<Arguments> provideTestDataForSelectMultiplePicks() {
         return Stream.of(
@@ -56,9 +60,11 @@ class JQueryDualListBoxDemoPageTest {
         int noOfAddedPicks = jQueryDualListBoxDemoPage.getNumberOfPicksInPickResultList();
         List<String> addedPicks = jQueryDualListBoxDemoPage.getPickResultListOptions();
         assertEquals(options.size(), noOfAddedPicks);
-        System.out.println(String.format("TC-ST-JDLB-01 - Number of added picks validated using %s values", options));
+        logger.info("{} : TC-ST-JDLB-01 - Number of added picks validated using {} values", this.getClass(), options);
+        //System.out.println(String.format("TC-ST-JDLB-01 - Number of added picks validated using %s values", options));
         assertEquals(options, addedPicks);
-        System.out.println(String.format("TC-ST-JDLB-01 - Added picks validated using %s values", options));
+        logger.info("{} : TC-ST-JDLB-01 - Added picks validated using {} values", this.getClass(), options);
+        //System.out.println(String.format("TC-ST-JDLB-01 - Added picks validated using %s values", options));
     }
 
     @DisplayName("TC-ST-JDLB-02 - Check original pick list after multiple picks added to pick result list")
@@ -112,9 +118,9 @@ class JQueryDualListBoxDemoPageTest {
         jQueryDualListBoxDemoPage.selectMultipleItemsFromPickResultList(removablePicks);
         jQueryDualListBoxDemoPage.removeSelectedPicksFromPickResultList();
         assertEquals(remainingPicks.size(), jQueryDualListBoxDemoPage.getNumberOfPicksInPickResultList());
-        System.out.println("TC-ST-JDLB-07 - Number of remaining items in pick result list passed");
+        logger.info("{} : TC-ST-JDLB-07 - Number of remaining items in pick result list passed", this.getClass());
         assertEquals(remainingPicks, jQueryDualListBoxDemoPage.getPickResultListOptions());
-        System.out.println(String.format("TC-ST-JDLB-07 - %s remaining picks passed", remainingPicks));
+        logger.info("{} : TC-ST-JDLB-07 - {} remaining picks passed", this.getClass(), remainingPicks);
     }
 
     @DisplayName("TC-ST-JDLB-08 - Check original pick list after remove some of the selected added items to pick result list")
