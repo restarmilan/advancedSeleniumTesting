@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ public class TableSortAndSearchDemoPage extends BasePage {
 
     private List<String> paginationInfos = new ArrayList<>();
 
+    private final static Logger logger = LoggerFactory.getLogger(TableSortAndSearchDemoPage.class);
+
     public TableSortAndSearchDemoPage(WebDriver driver) {
         super(driver);
     }
@@ -39,7 +43,7 @@ public class TableSortAndSearchDemoPage extends BasePage {
         try {
             entriesSelect.selectByValue(option);
         } catch (NoSuchElementException e) {
-            System.out.println("There is no such option in the table entry selector: " + option);
+            logger.error("There is no such option in the table entry selector: {}", option);
             e.printStackTrace();
         }
     }
@@ -77,7 +81,7 @@ public class TableSortAndSearchDemoPage extends BasePage {
                 clickOnWebElement(tableHeader);
             }
         } catch (NoSuchElementException e) {
-            System.out.println("There is no such column to sort in the table");
+            logger.error("There is no such column to sort in the table");
             e.printStackTrace();
         }
     }

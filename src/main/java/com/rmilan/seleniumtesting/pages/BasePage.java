@@ -5,8 +5,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
+
 
 public abstract class BasePage {
 
@@ -14,6 +17,7 @@ public abstract class BasePage {
     WebDriver driver;
     WebDriverWait wait;
     String baseUrl = "https://www.seleniumeasy.com/test";
+    private final static Logger logger = LoggerFactory.getLogger(BasePage.class);
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -58,14 +62,10 @@ public abstract class BasePage {
                 WebElement select = driver.findElement(By.xpath("//option[text()='" + option + "']"));
                 action.keyDown(Keys.CONTROL).click(select).build().perform();
             } catch (NoSuchElementException e) {
-                System.out.println("There is no such option is the dropdown: " + option);
+                logger.error("{} : There is no such option in the dropdown: {}", this.getClass(), option);
                 e.printStackTrace();
             }
         }
 
-    }
-
-    public String getElementAttribute(WebElement element, String attribute) {
-        return element.getAttribute(attribute);
     }
 }
